@@ -1,0 +1,536 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Sterilization.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    
+
+       <link runat="server" rel="shortcut icon" href="images/favicon.ico" type="image/x-icon"/>
+                <link runat="server" rel="icon" href="images/favicon.ico" type="image/ico"/>
+    
+
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+
+
+    <link href="css/bootstrapValidator.css" rel="stylesheet" />
+
+
+    <script src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/bootstrapValidator.js"></script>
+
+    <script src="scripts/bootstrap.min.js"></script>
+
+    <script src="scripts/bootstrap-select.js"></script>
+    <link href="css/bootstrap-select.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="css/datepicker.min.css" />
+    <link rel="stylesheet" href="css/datepicker3.min.css" />
+
+    <script src="scripts/bootstrap-datepicker.min.js"></script>
+
+    <link href="css/bootstrap-toggle.min.css" rel="stylesheet"/>
+    <script src="scripts/bootstrap-toggle.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
+    <script>
+        $(document).ready(function () {
+            navigationMenu();
+        });
+
+        $(function () {
+
+         
+            
+            var current_page_URL = location.href;
+            $("a").each(function () {
+                if ($(this).attr("href") !== "#") {
+                    var target_URL = $(this).prop("href");
+                    if (target_URL == current_page_URL) {
+                        $('nav a').parents('li, ul').removeClass('active');
+                        $(this).parent('li').addClass('active');
+                        return false;
+                    }
+                }
+            });            
+        });
+        //function navigationMenu() {
+        //    //debugger;
+        //    //alert(str);
+        //    //document.getElementById("navbar").innerHTML = str;
+
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: 'Webservices/WebServices.asmx/GetUserPages',
+        //        dataType: 'json',
+        //        contentType: 'application/json; charset=utf-8',
+        //        data: '{}',
+        //        async:false,
+        //        success: function (response) {
+        //           // debugger;
+        //            var d = JSON.parse(response.d);
+        //            //User Access
+        //            var strReportsHTML = "<ul class='nav navbar-nav'><li class='dropdown'><a href='#' id='reports' class='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Reports</a> <ul class='dropdown-menu'>";
+        //            var strHTML = "<ul class='nav navbar-nav'><li class='dropdown'><a href='#' id='systemaccess' class='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>System Access</a> <ul class='dropdown-menu'>";
+        //            var selectHTML = "<ul class='nav navbar-nav'>";
+        //            var submenu = false;
+        //            if (d[""].length > 0) {
+        //                for (i = 0; i < d[""].length - 1; i++) {
+        //                    var acc = d[""][i][1];
+        //                    var leveltype = d[""][i][4];
+        //                    if ((leveltype == 1) && (acc == "6" || acc == "7" || acc == "8" || acc == "9")) {//Users Access
+        //                        submenu = true;
+        //                        strHTML += "<li><a id='" + d[""][i][3] + "' href='" + d[""][i][2] + "'>" + d[""][i][3] + "</a></li>";
+        //                    }
+        //                    else if (acc == "11" || acc == "12" || acc == "13") {
+        //                        strReportsHTML += "";
+        //                    }
+        //                    else if (acc == "10") {
+        //                        selectHTML += "";
+        //                    }
+        //                    else {
+        //                        selectHTML += "<li><a id='" + d[""][i][3] + "' href='" + d[""][i][2] + "'>" + d[""][i][3] + "</a></li>";
+        //                    }
+        //                    //value='" + quotesdata.Table[i][0] + "'>" + quotesdata.Table[i][1] + "</option>";
+        //                }
+        //                if (submenu) {
+        //                    strHTML += "</ul></li></ul>";
+        //                }
+        //                else {
+        //                    strHTML = "";
+        //                }
+        //                var logoutHTML = "</ul><ul class='nav navbar-nav navbar-right'>";
+        //                logoutHTML += "<li><a href='#' id='divusername' style='color: #981616;'></a></li>";
+        //                logoutHTML += "<li><a href='Login.aspx?param=LG'>LogOut</a></li></ul>";
+        //                selectHTML += strHTML+ logoutHTML+"</ul>";
+        //            }
+        //            if (document.getElementById("navbar")) {
+        //                document.getElementById("navbar").innerHTML = selectHTML;
+        //            }
+        //            document.getElementById("divusername").innerHTML = document.getElementById("hdnUserName").value;
+        //            if (document.getElementById("hdnTitle").value != "") {
+        //                ChageTitle(document.getElementById("hdnTitle").value);
+        //            }
+        //        },
+        //        error: function (error) {
+        //            console.log(error);
+        //        }
+        //    });
+
+        //}
+
+
+
+        function navigationMenu() {
+            //debugger;
+            //alert(str);
+            //document.getElementById("navbar").innerHTML = str;
+
+            $.ajax({
+                type: 'POST',
+                url: 'Webservices/WebServices.asmx/GetUserPages',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: '{}',
+                async: false,
+                success: function (response) {
+                    // debugger;
+                    var d = JSON.parse(response.d);
+                    //User Access
+                    var strReportsHTML ="<ul class='nav navbar-nav'><li class='dropdown'><a href='#' id='reports' class='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Reports</a> <ul class='dropdown-menu'>";
+                    var strHTML = "<ul class='nav navbar-nav'><li class='dropdown'><a href='#' id='systemaccess' class='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>System Setup</a> <ul class='dropdown-menu'>";
+                    var selectHTML = "<ul class='nav navbar-nav'>";
+                    var systemAccessSubmenu = false;
+                    var reportsSubmenu = false;
+                    if (d[""].length > 0) {
+                        for (i = 0; i < d[""].length - 1; i++)
+                        {
+                            var acc = d[""][i][1];
+                            var leveltype = d[""][i][4];
+                            //System Setup Menu
+                            //acc is a pageID, leveltype - is a user level type where 1 - Admin, 2 - Manager, 3 - User, 4 - QA
+                            if ((leveltype == 1) && (acc == "8" || acc == "9" || acc == "10" || acc == "11" || acc == "12"||acc == "13" || acc == "14")) {//Users Access
+                                systemAccessSubmenu = true;
+                                strHTML += "<li><a id='" + d[""][i][3] + "' href='" + d[""][i][2] + "'>" + d[""][i][3] + "</a></li>";
+                            }
+                            else if (acc == "6" || acc == "7") 
+                            //else if ((leveltype == 1) &&  (acc == "6" || acc == "7") )
+                            {//Reports Menu
+                                reportsSubmenu = true;
+                                strReportsHTML += "<li><a id='" + d[""][i][3] + "' href='" + d[""][i][2] + "'>" + d[""][i][3] + "</a></li>";
+                            }                           
+                            else
+                            {
+                                selectHTML += "<li><a id='" + d[""][i][3] + "' href='" + d[""][i][2] + "'>" + d[""][i][3] + "</a></li>";
+                            }
+                            //value='" + quotesdata.Table[i][0] + "'>" + quotesdata.Table[i][1] + "</option>";
+                        }
+                        if (reportsSubmenu) {
+                            strReportsHTML += "</ul></li></ul>";
+                        }
+                        else {
+                            strReportsHTML = "";
+                        }
+                        if (systemAccessSubmenu) {
+                            strHTML += "</ul></li></ul>";
+                        }
+                        else {
+                            strHTML = "";
+                        }
+                        var logoutHTML = "</ul><ul class='nav navbar-nav navbar-right'>";
+                        logoutHTML += "<li><a href='#' id='divusername' style='color: #981616;'></a></li>";
+                        logoutHTML += "<li><a href='Login.aspx?param=LG'>LogOut</a></li></ul>";
+                        selectHTML += strReportsHTML+ strHTML + logoutHTML + "</ul>";
+                    }
+                    if (document.getElementById("navbar")) {
+                        document.getElementById("navbar").innerHTML = selectHTML;
+                    }
+                    document.getElementById("divusername").innerHTML = document.getElementById("hdnUserName").value;
+                    if (document.getElementById("hdnTitle").value != "") {
+                        ChageTitle(document.getElementById("hdnTitle").value);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        }
+        function ChageTitle(title) {            
+            $("#QaApproval").text(title);
+            //if (title == "QA Approval") {
+            //    document.getElementById("LabelVoiding").style.display = "block";
+            //}
+            //else {
+            //    document.getElementById("Takeout").style.display = "block";
+            //}                        
+        }
+        function showUserName(msg) {            
+            document.getElementById("hdnUserName").value = msg;
+        }
+        //$(document).ready(function () {
+        //    var myNavBar = {
+        //        flagAdd: true,
+        //        elements: [],
+        //        init: function (elements) {
+        //            this.elements = elements;
+        //        },
+        //        add: function () {
+        //            if (this.flagAdd) {
+        //                for (var i = 0; i < this.elements.length; i++) {
+        //                    document.getElementById(this.elements[i]).className += " fixed-theme";
+        //                }
+        //                this.flagAdd = false;
+        //            }
+        //        },
+        //        remove: function () {
+        //            for (var i = 0; i < this.elements.length; i++) {
+        //                document.getElementById(this.elements[i]).className =
+        //                        document.getElementById(this.elements[i]).className.replace(/(?:^|\s)fixed-theme(?!\S)/g, '');
+        //            }
+        //            this.flagAdd = true;
+        //        }
+        //    };
+        //    myNavBar.init([
+        //        "header",
+        //        "header-container",
+        //        "brand"
+        //    ]);
+        //    function offSetManager() {
+
+        //        var yOffset = 0;
+        //        var currYOffSet = window.pageYOffset;
+
+        //        if (yOffset < currYOffSet) {
+        //            myNavBar.add();
+        //        }
+        //        else if (currYOffSet == yOffset) {
+        //            myNavBar.remove();
+        //        }
+
+        //    }
+        //    window.onscroll = function (e) {
+        //        offSetManager();
+        //    }
+        //    offSetManager();
+        //});
+
+    </script>
+
+
+    <style>
+        .pendingclass {
+             background-color: #ff9600 !important;
+             border-color: #eea236;
+        }
+       
+        body {
+            background-color: #F6F6F6;
+        }
+
+        .pageheader {
+            border-left-color: #1b809e;
+            border-left-width: 5px;
+            border-radius: 3px;
+        }
+
+        .content {
+            max-width: 964px;
+            background-color: white;
+            margin: 0 auto;
+            padding-top: 5%;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-bottom: 5%;
+            border: 1px solid #496077;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                    margin-top: 7%;
+            }
+        }
+
+        .hiddencol {
+            display: none;
+        }
+
+        .header-center {
+            text-align: center;
+        }
+          fieldset {
+            border: 1px solid #ddd !important;
+            margin: 0;
+            width: 100%;
+            min-width: 0;
+            padding: 10px;
+            position: relative;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+            padding-left: 10px !important;
+        }
+
+        legend {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 0px;
+            width: 35%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 5px 5px 10px;
+            background-color: #ffffff;
+        }
+        /*header.sticky {
+            font-size: 24px;
+            line-height: 48px;
+            height: 48px;
+            background: #efc47D;
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        header {
+            transition: all 0.4s ease;
+        }
+
+
+
+
+        html,
+        body {
+            overflow-x: hidden; 
+        }
+
+        body {
+            padding-top: 100px;
+        }
+
+        footer {
+            padding: 30px 0;
+        }
+
+ 
+        .navbar-brand {
+            font-size: 24px;
+        }
+
+        .navbar-container {
+            padding: 20px 0 20px 0;
+        }
+
+        .navbar.navbar-fixed-top.fixed-theme {
+            background-color: #222;
+            border-color: #080808;
+            box-shadow: 0 0 5px rgba(0,0,0,.8);
+        }
+
+        .navbar-brand.fixed-theme {
+            font-size: 18px;
+        }
+
+        .navbar-container.fixed-theme {
+            padding: 0;
+        }
+
+        .navbar-brand.fixed-theme,
+        .navbar-container.fixed-theme,
+        .navbar.navbar-fixed-top.fixed-theme,
+        .navbar-brand,
+        .navbar-container {
+            transition: 0.8s;
+            -webkit-transition: 0.8s;
+        }*/
+        #header {
+            border-top: 5px solid #337ab7; /*#ff821f;*/
+            border-bottom: 2px solid #d6d6d6;
+            background: #ffffff;
+            background: rgba(255,255,255,0.97);
+        }
+
+        #navbar a {
+            border-bottom: none;
+            color: #777;
+            font-weight: 600;
+            font-family: 'Libre Franklin', Helvetica, Arial, sans-serif;
+        }
+
+            #navbar a:hover {
+                color: #337ab7;
+            }
+
+        #navbar .active, #navbar .active a {
+            color: #fff;
+            background-color: #337ab7;
+            border-bottom: 1px solid #ff821f;
+        }
+        .grid_scroll
+            {
+                  overflow: auto;
+                /* height: 500px; */
+                /*border: solid 1px orange;*/
+                height: 800px;
+                width: 920px;
+            }
+         .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .navbar-brand{
+            padding :9px 15px !important;
+        }
+        .label {
+            font-size: 15px;
+        }
+        .navbar-right {
+    margin-right: 0px;
+}
+
+
+
+        @media (max-width: 991px) {
+            .container {
+    width: 100%;
+}
+    .navbar-header {
+        float: none;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .navbar-text {
+        float: none;
+        margin: 15px 0;
+    }
+    .navbar-collapse.collapse.in { 
+        display: block!important;
+    }
+    .collapsing {
+        overflow: hidden!important;
+    }
+}
+    </style>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <nav id="header" class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand navbar-brand-logo" style="padding-top: 0px !important;" href="Products.aspx" > 
+                        <div class="logo" >
+                            <img src="images/Menu_Logo.png" style="width: 160px;"/>
+                        </div>                        
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                  <%--  <ul class="nav navbar-nav">
+                        <li><a href="Products.aspx">Products</a></li>
+                        <li><a href="ProductLabeling.aspx">Products Labeling</a></li>
+                        <li><a href="QaApproval.aspx" id="pagename"></a></li>
+                        <li><a href="shipment.aspx" id="litakeout" style="display: none;">Takeout</a></li>
+                        <li><a href="voiding.aspx" id="lilabelvoiding" style="display: none;">Label Voiding</a></li>
+                        <li><a href="reports.aspx" id="reports" style="display: none;">Reports</a></li>
+                    </ul>--%>
+                    <%--  <ul class="nav navbar-nav">                       
+                        <li class="dropdown">
+                            <a href="#" id="systemaccess" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">System Access</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="usergroups.aspx">Users Group</a></li>
+                                <li><a href="users.aspx">Users</a></li>      
+                                <li><a href="systempages.aspx">System Pages</a></li>
+                                <li><a href="useraccess.aspx">Users Access</a></li>    
+                                               
+                            </ul>
+                        </li>
+                    </ul>--%>
+                    <%--<ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" id="divusername" style="color: #981616;"></a></li>
+                        <li><a href="Login.aspx?param=LG">LogOut</a></li>
+                    </ul>--%>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </nav>
+        <div>
+            <asp:ContentPlaceHolder ID="MainContentHolder" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <br />
+        <footer class="text-center" style="color: Maroon">
+            <p>&copy; Prince Sterilization Services, LLC. All Rights Reserved, 2019</p>
+        </footer>
+        <asp:HiddenField runat="server" ID ="hdnUserName" />
+        <asp:HiddenField runat="server" ID ="hdnTitle" />
+    </form>
+</body>
+</html>
